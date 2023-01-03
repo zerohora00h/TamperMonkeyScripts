@@ -26,7 +26,7 @@
         downloadSrt(data.data[0].subtitles)
 
     } catch (error) {
-        console.error('Erro ao acessar a url')
+        console.error('Error')
         console.log(error)
     }
 }
@@ -35,7 +35,7 @@ function convertToSrt(data) {
     let srt = '';
     let counter = 1;
 
-    // Obtém uma lista de IDs ordenados pelo tempo de início
+    // Gets a list of IDs ordered by start time, because subtitles are scrambled
     const ids = Object.keys(data).sort((a, b) => data[a].from - data[b].from);
 
     for (const id of ids) {
