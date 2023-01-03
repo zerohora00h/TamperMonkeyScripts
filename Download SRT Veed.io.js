@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Download SRT Veed
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Download SRT Free from Veed
 // @author       ZeroHora
 // @match        https://www.veed.io/edit/*/subtitles
@@ -98,7 +98,7 @@ document.body.insertAdjacentHTML('beforeend', `
   <style>
     .floatSRDownload {
       position: fixed;
-      right: 50%;
+      right: 70%;
       bottom: 94%;
       z-index: 999;
     }
