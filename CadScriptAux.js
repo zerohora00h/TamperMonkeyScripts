@@ -50,6 +50,19 @@ const clickCheckBox = (selector, index) => {
   }
 }
 
+const selectOption = (selector, value) => {
+  const element = document.querySelector(selector);
+  if (element) {
+    const options = element.querySelectorAll('option');
+    for (const option of options) {
+      if (option.value === value) {
+        option.selected = true;
+        break;
+      }
+    }
+  }
+};
+
 const getCurrentDate = () => {
   const data = new Date();
   const day = String(data.getDate()).padStart(2, '0');
@@ -634,7 +647,7 @@ const addDefaultDataFill = () => {
 
     switch (codCurrentPage) {
       case "1":
-        setFieldValues('input[name="formaColeta"]', 0);
+        clickRadioButton('input[name="formaColeta"]', 0);
         const { day, month, year } = getCurrentDate();
         setFieldValues('input[name="diaEntrevista"]', day);
         setFieldValues('input[name="mesEntrevista"]', month);
