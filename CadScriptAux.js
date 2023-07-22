@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.00
+// @version      1.01
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -598,179 +598,179 @@ const addTrabalhoShortcut = () => {
 const addDefaultDataFill = () => {
 
   const runFunc = () => {
-      switch (document.querySelector("#formularioForm").codigoTelaAtual.value) {
-          case "9":
-              document.querySelector('select#tipoTelefone1').value = "N"
-              document.querySelector('select#tipoTelefone2').value = "N"
-              document.querySelector('select#tipoEmail').value = "N"
-              break;
-          case "10":
-              document.querySelectorAll('input[name="existeTrabalhoInfantil"]')[1].click()
-              break;
-          case "11":
-              document.querySelectorAll('input[name="programaBeneficioSesanItensSelecionados"]')[13].click()
-              document.querySelectorAll('input[name="programaBeneficioPlanoNacionalDeErradicacaoDoTrabalhoEscravo"]')[1].click()
-              document.querySelectorAll('input[name="programaBeneficioMinisterioDeMinasEEnergia"]')[3].click()
-              document.querySelectorAll('input[name="programaBeneficioSnasItensSelecionados"]')[23].click()
-              document.querySelector('input[name="beneficioPessoaRadioButton"]').click()
-              document.querySelector('select#outrasParceriasMDS').value = "0"
-              break;
-          case "6":
-              document.querySelectorAll('input[name="possuiDeficiencia"]')[1].click()
-              break;
-          case "7":
-              document.querySelectorAll('input[name="sabeLerEscrever"]')[1].click()
-              document.querySelector('select[name="frequentaEscola"]').value = "4"
-              break;
-          case "3":
-              document.querySelectorAll('input[name="familiaIndigena"]')[1].click()
-              document.querySelectorAll('input[name="familiaQuilambola"]')[1].click()
-              document.querySelector('input[name="naoTemCriancaAdolecenteDoente"]').checked = true
-              document.querySelector('input[name="naoTemJovemAdultoDoente"]').checked = true
-              document.querySelector('input[name="naoTemIdosoDoente"]').checked = true
-              break;
-          case "8":
-              document.querySelectorAll('input[name="trabalhouSemanaPassada"]')[1].click()
-              document.querySelectorAll('input[name="afastadoSemanaPassada"]')[1].click()
-              document.querySelector('input[name="checkRemuneracaoMes"]').click()
-              document.querySelectorAll('input[name="trabalhoRemuneradoUltimoAno"]')[1].click()
-              document.querySelector('input[name="checkAjudaDoacao"]').checked = true
-              document.querySelector('input[name="checkAposentadoria"]').checked = true
-              document.querySelector('input[name="checkSeguroDesemprego"]').checked = true
-              document.querySelector('input[name="checkPensaoAlimenticia"]').checked = true
-              document.querySelector('input[name="checkOutrasFontes"]').checked = true
-              break;
-          case "1":
-              document.querySelectorAll('input[name="formaColeta"]')[0].click()
-              var data = new Date();
-              var dia = String(data.getDate()).padStart(2, '0');
-              var mes = String(data.getMonth() + 1).padStart(2, '0');
-              var ano = data.getFullYear();
+    switch (document.querySelector("#formularioForm").codigoTelaAtual.value) {
+      case "9":
+        document.querySelector('select#tipoTelefone1').value = "N"
+        document.querySelector('select#tipoTelefone2').value = "N"
+        document.querySelector('select#tipoEmail').value = "N"
+        break;
+      case "10":
+        document.querySelectorAll('input[name="existeTrabalhoInfantil"]')[1].click()
+        break;
+      case "11":
+        document.querySelectorAll('input[name="programaBeneficioSesanItensSelecionados"]')[13].click()
+        document.querySelectorAll('input[name="programaBeneficioPlanoNacionalDeErradicacaoDoTrabalhoEscravo"]')[1].click()
+        document.querySelectorAll('input[name="programaBeneficioMinisterioDeMinasEEnergia"]')[3].click()
+        document.querySelectorAll('input[name="programaBeneficioSnasItensSelecionados"]')[23].click()
+        document.querySelector('input[name="beneficioPessoaRadioButton"]').click()
+        document.querySelector('select#outrasParceriasMDS').value = "0"
+        break;
+      case "6":
+        document.querySelectorAll('input[name="possuiDeficiencia"]')[1].click()
+        break;
+      case "7":
+        document.querySelectorAll('input[name="sabeLerEscrever"]')[1].click()
+        document.querySelector('select[name="frequentaEscola"]').value = "4"
+        break;
+      case "3":
+        document.querySelectorAll('input[name="familiaIndigena"]')[1].click()
+        document.querySelectorAll('input[name="familiaQuilambola"]')[1].click()
+        document.querySelector('input[name="naoTemCriancaAdolecenteDoente"]').checked = true
+        document.querySelector('input[name="naoTemJovemAdultoDoente"]').checked = true
+        document.querySelector('input[name="naoTemIdosoDoente"]').checked = true
+        break;
+      case "8":
+        document.querySelectorAll('input[name="trabalhouSemanaPassada"]')[1].click()
+        document.querySelectorAll('input[name="afastadoSemanaPassada"]')[1].click()
+        document.querySelector('input[name="checkRemuneracaoMes"]').click()
+        document.querySelectorAll('input[name="trabalhoRemuneradoUltimoAno"]')[1].click()
+        document.querySelector('input[name="checkAjudaDoacao"]').checked = true
+        document.querySelector('input[name="checkAposentadoria"]').checked = true
+        document.querySelector('input[name="checkSeguroDesemprego"]').checked = true
+        document.querySelector('input[name="checkPensaoAlimenticia"]').checked = true
+        document.querySelector('input[name="checkOutrasFontes"]').checked = true
+        break;
+      case "1":
+        document.querySelectorAll('input[name="formaColeta"]')[0].click()
+        var data = new Date();
+        var dia = String(data.getDate()).padStart(2, '0');
+        var mes = String(data.getMonth() + 1).padStart(2, '0');
+        var ano = data.getFullYear();
 
-              document.querySelector('input[name="diaEntrevista"]').value = dia
-              document.querySelector('input[name="mesEntrevista"]').value = mes
-              document.querySelector('input[name="anoEntrevista"]').value = ano
+        document.querySelector('input[name="diaEntrevista"]').value = dia
+        document.querySelector('input[name="mesEntrevista"]').value = mes
+        document.querySelector('input[name="anoEntrevista"]').value = ano
 
-              document.querySelector('textarea[name="observacoes"]').value = "ATUALIZACAO CADASTRAL"
-              break;
-      }
+        document.querySelector('textarea[name="observacoes"]').value = "ATUALIZACAO CADASTRAL"
+        break;
+    }
   }
 
   document.onkeyup = function (e) {
-      if (e.ctrlKey && e.code == "Space") {
-          runFunc();
-      }
+    if (e.ctrlKey && e.code == "Space") {
+      runFunc();
+    }
   };
 
   document.getElementById('preencIconBtn')
-      .addEventListener('click', () => {
-          runFunc();
-      })
+    .addEventListener('click', () => {
+      runFunc();
+    })
 }
 
 const addAutoAver = () => {
   function cadunFinalizarAtualizacaoMod(voltarRua = false, nomeRuaOriginal = "SEM NOME") {
-      loading(true);
-      var form = document.getElementById("formularioForm");
-      document.getElementById("validadoEscola").value = "0";
-      $.ajax({
-          type: "POST"
-          , url: "finalizarAtualizacoes.do?acao=finalizarAtualizacoes"
-          , data: $(form).serialize()
-          , success: function (data) { $("#recebe_miolo").empty().html(data); }
-          , error: function (jqXHR, textStatus, errorThrown) { $("#recebe_miolo").empty().html(jqXHR.responseText).css("height", "auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno"); }
-          , complete: function () { loading(false); if (voltarRua == true) { document.querySelector('input[name="nomeLogradouro"]').value = nomeRuaOriginal; cadunFinalizarAtualizacaoMod(); } else { if (document.querySelector("#formularioForm").codigoTelaAtual.value != "3") { carregarTela('formularioForm', 'iniciarAlterarIdentificacaoFamilia.do?acao=iniciarAlterar'); } } }
-          , dataType: "html"
-      });
+    loading(true);
+    var form = document.getElementById("formularioForm");
+    document.getElementById("validadoEscola").value = "0";
+    $.ajax({
+      type: "POST"
+      , url: "finalizarAtualizacoes.do?acao=finalizarAtualizacoes"
+      , data: $(form).serialize()
+      , success: function (data) { $("#recebe_miolo").empty().html(data); }
+      , error: function (jqXHR, textStatus, errorThrown) { $("#recebe_miolo").empty().html(jqXHR.responseText).css("height", "auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno"); }
+      , complete: function () { loading(false); if (voltarRua == true) { document.querySelector('input[name="nomeLogradouro"]').value = nomeRuaOriginal; cadunFinalizarAtualizacaoMod(); } else { if (document.querySelector("#formularioForm").codigoTelaAtual.value != "3") { carregarTela('formularioForm', 'iniciarAlterarIdentificacaoFamilia.do?acao=iniciarAlterar'); } } }
+      , dataType: "html"
+    });
   }
 
   function carregarTela(formId, action) {
-      loading(true);
-      var form = document.getElementById(formId);
-      if (form != null) {
-          if (form.codigoTelaAtual != undefined) {
-              if (form.codigoTelaAtual.value == '5') {
-                  var checkNascimento = document.getElementById("nascimento");
-                  if (checkNascimento != null && checkNascimento != 'undefined' && checkNascimento.checked) {
-                      checkNascimento.disabled = false;
-                  }
-              }
+    loading(true);
+    var form = document.getElementById(formId);
+    if (form != null) {
+      if (form.codigoTelaAtual != undefined) {
+        if (form.codigoTelaAtual.value == '5') {
+          var checkNascimento = document.getElementById("nascimento");
+          if (checkNascimento != null && checkNascimento != 'undefined' && checkNascimento.checked) {
+            checkNascimento.disabled = false;
           }
+        }
       }
+    }
 
-      $.ajax({
-          type: "POST"
-          , url: action
-          , data: $(form).serialize()
-          , success: function (data) { $("#recebe_miolo").empty().html(data); }
-          , error: function (jqXHR, textStatus, errorThrown) { $("#recebe_miolo").empty().html(jqXHR.responseText).css("height", "auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno"); }
-          , complete: function () { loading(false); corrigirQuantPessoas(); }
-          , dataType: "html"
-      });
+    $.ajax({
+      type: "POST"
+      , url: action
+      , data: $(form).serialize()
+      , success: function (data) { $("#recebe_miolo").empty().html(data); }
+      , error: function (jqXHR, textStatus, errorThrown) { $("#recebe_miolo").empty().html(jqXHR.responseText).css("height", "auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno"); }
+      , complete: function () { loading(false); corrigirQuantPessoas(); }
+      , dataType: "html"
+    });
   }
 
   const corrigirQuantPessoas = () => {
-      if (document.querySelector("#formularioForm").codigoTelaAtual.value != "3") return;
+    if (document.querySelector("#formularioForm").codigoTelaAtual.value != "3") return;
 
-      const intervalId = setInterval(() => {
-          const cadastrados = document.querySelectorAll("td[title='CADASTRADO']");
-          if (cadastrados.length > 0) {
-              clearInterval(intervalId); // interrompe o intervalo de verificação
-              document.querySelector("input[name='qtdPessoasDomicilio']").value = cadastrados.length;
-              document.querySelector("input[name='qtdFamiliasDomicilio']").value = "1";
+    const intervalId = setInterval(() => {
+      const cadastrados = document.querySelectorAll("td[title='CADASTRADO']");
+      if (cadastrados.length > 0) {
+        clearInterval(intervalId); // interrompe o intervalo de verificação
+        document.querySelector("input[name='qtdPessoasDomicilio']").value = cadastrados.length;
+        document.querySelector("input[name='qtdFamiliasDomicilio']").value = "1";
 
-              cadunFinalizarAtualizacaoMod(false);
-          }
-      }, 500); // verifica a cada 500 milissegundos
+        cadunFinalizarAtualizacaoMod(false);
+      }
+    }, 500); // verifica a cada 500 milissegundos
   }
 
   const runAutoAt = () => {
-      if (document.querySelector("#formularioForm").codigoTelaAtual.value = "1") {
-          document.querySelectorAll('input[name="formaColeta"]')[1].click()
-          var data = new Date();
-          var dia = String(data.getDate()).padStart(2, '0');
-          var mes = String(data.getMonth() + 1).padStart(2, '0');
-          var ano = data.getFullYear();
+    if (document.querySelector("#formularioForm").codigoTelaAtual.value = "1") {
+      document.querySelectorAll('input[name="formaColeta"]')[1].click()
+      var data = new Date();
+      var dia = String(data.getDate()).padStart(2, '0');
+      var mes = String(data.getMonth() + 1).padStart(2, '0');
+      var ano = data.getFullYear();
 
-          document.querySelector('input[name="diaEntrevista"]').value = dia
-          document.querySelector('input[name="mesEntrevista"]').value = mes
-          document.querySelector('input[name="anoEntrevista"]').value = ano
+      document.querySelector('input[name="diaEntrevista"]').value = dia
+      document.querySelector('input[name="mesEntrevista"]').value = mes
+      document.querySelector('input[name="anoEntrevista"]').value = ano
 
-          var nomeRuaOriginal = document.querySelector('input[name="nomeLogradouro"]').value
+      var nomeRuaOriginal = document.querySelector('input[name="nomeLogradouro"]').value
 
-          document.querySelector('input[name="nomeLogradouro"]').value = "SEM NOME"
-          document.querySelector('input[name="cpfEntrevistador"]').value = "093.129.983-74" //007.662.533-84
-          document.querySelector('textarea[name="observacoes"]').value = "ATUALIZACAO CADASTRAL AVERIGUACAO UNIPESSOAL"
+      document.querySelector('input[name="nomeLogradouro"]').value = "SEM NOME"
+      document.querySelector('input[name="cpfEntrevistador"]').value = "093.129.983-74" //007.662.533-84
+      document.querySelector('textarea[name="observacoes"]').value = "ATUALIZACAO CADASTRAL AVERIGUACAO UNIPESSOAL"
 
-              function cadunObterEntrevistadorMod(url, cpf, divRetorno){
-                  if(cpf.cadunTrim() == ""){
-                      $("#"+divRetorno).empty().html("CPF n&atilde;o informado.");
-                      return;
-                  }
-                  loading(true);
-                  $.ajax({
-                      type: "GET"
-                      , url: url+cpf
-                      , success: function(data) {
-                          try {
-                              $("#"+divRetorno).empty().html(data);
-                          } catch(Exception) {
-                              $("#recebe_miolo").empty().html(jqXHR.responseText).css("height","auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno");
-                          }
-                      }
-                      , error: function (jqXHR, textStatus, errorThrown) { $("#recebe_miolo").empty().html(jqXHR.responseText).css("height","auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno"); }
-                      , complete: function () { loading(false); cadunFinalizarAtualizacaoMod(true, nomeRuaOriginal); }
-                      , dataType: "html"
-                  });
-              }
-          cadunObterEntrevistadorMod('AjaxRequestsServlet?acao=buscarEntrevistador&nameSpace=&cpf=', document.getElementById('cpfEntrevistador').value, 'nomeEntrevistador');
+      function cadunObterEntrevistadorMod(url, cpf, divRetorno) {
+        if (cpf.cadunTrim() == "") {
+          $("#" + divRetorno).empty().html("CPF n&atilde;o informado.");
+          return;
+        }
+        loading(true);
+        $.ajax({
+          type: "GET"
+          , url: url + cpf
+          , success: function (data) {
+            try {
+              $("#" + divRetorno).empty().html(data);
+            } catch (Exception) {
+              $("#recebe_miolo").empty().html(jqXHR.responseText).css("height", "auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno");
+            }
+          }
+          , error: function (jqXHR, textStatus, errorThrown) { $("#recebe_miolo").empty().html(jqXHR.responseText).css("height", "auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno"); }
+          , complete: function () { loading(false); cadunFinalizarAtualizacaoMod(true, nomeRuaOriginal); }
+          , dataType: "html"
+        });
       }
+      cadunObterEntrevistadorMod('AjaxRequestsServlet?acao=buscarEntrevistador&nameSpace=&cpf=', document.getElementById('cpfEntrevistador').value, 'nomeEntrevistador');
+    }
   }
 
   document.getElementById('autoAverIconBtn')
-      .addEventListener('click', () => {
-          runAutoAt();
-      })
+    .addEventListener('click', () => {
+      runAutoAt();
+    })
 }
 
 function RunMods() {
@@ -781,6 +781,16 @@ function RunMods() {
   addEscolaridadeShortcut();
   addDefaultDataFill();
   addAutoAver();
+
+  var intervalId = window.setInterval(function () {
+    let el = document.querySelector('a[title="Emissão Comprovante Cadastro"]')
+    if (el === null) return
+    if (el.onclick) {
+      el.setAttribute('onclick', "window.open('/cadun/ComprovanteCadastroServlet?telefoneOrgaoResponsavel=98984441075', '_self')")
+    }
+  }, 200)
+
+  //clearInterval(intervalId)
 }
 
 RunMods()
