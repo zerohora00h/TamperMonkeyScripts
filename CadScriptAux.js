@@ -277,7 +277,7 @@ const addQuickSearchMenu = () => {
     display: flex;
   }
   
-  .tools-menu > input[type="radio"]{
+  .tools-menu input[type="radio"]{
     display: none;
   }
   
@@ -293,10 +293,6 @@ const addQuickSearchMenu = () => {
     cursor: pointer;
     padding: .2rem .5rem;
     border: 2px solid lightgrey;
-  }
-  
-  input[type="radio"]{
-    display: none;
   }
   
   .tools-menu button {
