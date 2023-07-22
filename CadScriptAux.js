@@ -217,10 +217,10 @@ const addQuickSearchMenu = () => {
     transform: translateX(-2px);
   }
   
-.showing{
-  transform: translateX(-2px);
-  background: hsl(209, 100%, 30%);
-}
+  .showing{
+    transform: translateX(-2px);
+    background: hsl(209, 100%, 30%);
+  }
   
   .tooltip {
     position: absolute;
@@ -417,6 +417,7 @@ const addQuickSearchMenu = () => {
     // modes: 1 = alterar familia, 2 = normal, 3 = folha resumo, 4 = formulario principal
 
     document.getElementById('popupDiv').classList.toggle('show')
+    document.getElementById('sBtnCon').classList.toggle('showing')
     loading(true) //native function in page
 
     const selectedOption = document.querySelector('input[name="select"]:checked').id.split('-')[1]
