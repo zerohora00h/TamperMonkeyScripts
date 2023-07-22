@@ -688,10 +688,10 @@ const addDefaultDataFill = () => {
         clickRadioButton('input[name="existeTrabalhoInfantil"]', 1);
         break;
       case "11":
-        clickRadioButton('input[name="programaBeneficioSesanItensSelecionados"]', 13);
-        clickRadioButton('input[name="programaBeneficioPlanoNacionalDeErradicacaoDoTrabalhoEscravo"]', 1);
-        clickRadioButton('input[name="programaBeneficioMinisterioDeMinasEEnergia"]', 3);
-        clickRadioButton('input[name="programaBeneficioSnasItensSelecionados"]', 23);
+        clickCheckBox('input[name="programaBeneficioSesanItensSelecionados"]', 13);
+        clickCheckBox('input[name="programaBeneficioPlanoNacionalDeErradicacaoDoTrabalhoEscravo"]', 1);
+        clickCheckBox('input[name="programaBeneficioMinisterioDeMinasEEnergia"]', 3);
+        clickCheckBox('input[name="programaBeneficioSnasItensSelecionados"]', 23);
         clickRadioButton('input[name="beneficioPessoaRadioButton"]', 0);
         selectOption('select#outrasParceriasMDS', '0');
         break;
