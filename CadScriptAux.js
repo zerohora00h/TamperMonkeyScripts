@@ -8,6 +8,8 @@
 // @require      https://unpkg.com/pdf-lib/dist/pdf-lib.js
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
+// @updateURL    https://raw.githubusercontent.com/zerohora00h/TamperMonkeyScripts/main/CadScriptAux.js
+// @downloadURL  https://raw.githubusercontent.com/zerohora00h/TamperMonkeyScripts/main/CadScriptAux.js
 // ==/UserScript==
 
 const injectHtmlCss = (html, css) => {
