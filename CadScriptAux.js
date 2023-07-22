@@ -217,6 +217,10 @@ const addQuickSearchMenu = () => {
     transform: translateX(-2px);
   }
   
+  .showing{
+    transform: translateX(-2px);
+  }
+  
   .tooltip {
     position: absolute;
     background: hsl(217, 19%, 40%);
