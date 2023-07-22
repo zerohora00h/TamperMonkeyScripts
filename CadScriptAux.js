@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.04
+// @version      1.05
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -169,167 +169,167 @@ const addQuickSearchMenu = () => {
 </aside>
   `
   const cssToInject = `
-.tools-menu {
-  --hidden: none;
-  --fs: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  position: fixed;
-  right: 0;
-  top: 30vh;
-  z-index: 9999;
-  font-size: var(--fs);
-}
-
-.mini-menu-container {
-  position: absolute;
-  top: -250%;
-  right: 120%;
-  display: none;
-}
-
-.mini-menu{
-  display: flex;
-  flex-direction: column;
-  background: #374151;
-  position: relative;
-  padding: 1.5em;
-  border-radius: 1rem;
-  gap: 1em;
-}
-
-.options {
-  --b-r: 0.7rem;
-  display: flex;
-  gap: 0.5rem;
-  margin-left: auto;
-  position: relative;
-  background: #1890ff;
-  color: #fff;
-  padding: 0.5rem;
-  align-content: center;
-  border-radius: var(--b-r) 0 0 var(--b-r);
-}
-
-.options:hover{
-  --hidden: inline;
-  transform: translateX(-2px)
-}
-
-.tooltip {
-  position: absolute;
-  background: hsl(217, 19%, 40%);
-  color: #fff;
-  padding: 0.5rem;
-  border-radius: 0.6rem;
-  right: 120%;
-  white-space: nowrap;
-}
-
-.arrow-container {
-  position: relative;
-}
-
-.arrow-tooltip {
-  position: absolute;
-  top: 35%;
-  right: -4px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-color: transparent transparent transparent hsl(217, 19%, 40%);
-}
-
-.option-name {
-  font-weight: bold;
-}
-
-.icon {
-  width: 20px;
-  cursor: pointer;
-}
-
-.hidden {
-  display: var(--hidden)
-}
-
-.show {
-  display: block;
-}
-
-.input-mm {
-  border-radius: 0.4rem;
-  border-style: none;
-  padding: 0.5rem;
-  font-size: var(--fs);
-}
-
-.flex {
-  display: flex;
-  align-self: center;
-  width: 100%;
-  gap: 1em;
-}
-
-.radios-container{
-  display: flex;
-}
-
-.tools-menu input[type="radio"]{
-  display: none;
-}
-
-.radios-container .option{
-  background: #fff;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  margin: 0 6px;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: .2rem .5rem;
-  border: 2px solid lightgrey;
-}
-
-input[type="radio"]{
-  display: none;
-}
-
-.tools-menu button {
-  background: hsl(211, 100%, 43%);
-  flex-grow: 1;
-  color: #fff;
-  border-radius: .4rem;
-  cursor: pointer;
-  padding: 0.5rem;
-  border: none;
-  font-size: var(--fs);
-}
-
-.tools-menu button:hover{
-  background: hsl(211, 100%, 43%, 0.5);
-}
-
-#option-1:checked:checked ~ .option-1,
-#option-2:checked:checked ~ .option-2,
-#option-3:checked:checked ~ .option-3{
-  border-color: #0069d9;
-  background: #0069d9;
-}
-
-.radios-container .option span{
-  color: #808080;
-}
-
-#option-1:checked:checked ~ .option-1 span,
-#option-2:checked:checked ~ .option-2 span,
-#option-3:checked:checked ~ .option-3 span{
-  color: #fff;
-}
+  .tools-menu {
+    --hidden: none;
+    --fs: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: fixed;
+    right: 0;
+    top: 30vh;
+    z-index: 9999;
+    font-size: var(--fs);
+  }
+  
+  .mini-menu-container {
+    position: absolute;
+    top: -250%;
+    right: 120%;
+    display: none;
+  }
+  
+  .mini-menu{
+    display: flex;
+    flex-direction: column;
+    background: #374151;
+    position: relative;
+    padding: 1.5em;
+    border-radius: 1rem;
+    gap: 1em;
+  }
+  
+  .options {
+    --b-r: 0.7rem;
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+    position: relative;
+    background: #1890ff;
+    color: #fff;
+    padding: 0.5rem;
+    align-content: center;
+    border-radius: var(--b-r) 0 0 var(--b-r);
+  }
+  
+  .options:hover{
+    --hidden: inline;
+    transform: translateX(-2px)
+  }
+  
+  .tooltip {
+    position: absolute;
+    background: hsl(217, 19%, 40%);
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 0.6rem;
+    right: 120%;
+    white-space: nowrap;
+  }
+  
+  .arrow-container {
+    position: relative;
+  }
+  
+  .arrow-tooltip {
+    position: absolute;
+    top: 35%;
+    right: -4px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-color: transparent transparent transparent hsl(217, 19%, 40%);
+  }
+  
+  .option-name {
+    font-weight: bold;
+  }
+  
+  .icon {
+    width: 20px;
+    cursor: pointer;
+  }
+  
+  .hidden {
+    display: var(--hidden)
+  }
+  
+  .show {
+    display: block;
+  }
+  
+  .input-mm {
+    border-radius: 0.4rem;
+    border-style: none;
+    padding: 0.5rem;
+    font-size: var(--fs);
+  }
+  
+  .flex {
+    display: flex;
+    align-self: center;
+    width: 100%;
+    gap: 1em;
+  }
+  
+  .radios-container{
+    display: flex;
+  }
+  
+  .tools-menu > input[type="radio"]{
+    display: none;
+  }
+  
+  .radios-container .option{
+    background: #fff;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0 6px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: .2rem .5rem;
+    border: 2px solid lightgrey;
+  }
+  
+  input[type="radio"]{
+    display: none;
+  }
+  
+  .tools-menu button {
+    background: hsl(211, 100%, 43%);
+    flex-grow: 1;
+    color: #fff;
+    border-radius: .4rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border: none;
+    font-size: var(--fs);
+  }
+  
+  .tools-menu button:hover{
+    background: hsl(211, 100%, 43%, 0.5);
+  }
+  
+  #option-1:checked:checked ~ .option-1,
+  #option-2:checked:checked ~ .option-2,
+  #option-3:checked:checked ~ .option-3{
+    border-color: #0069d9;
+    background: #0069d9;
+  }
+  
+  .radios-container .option span{
+    color: #808080;
+  }
+  
+  #option-1:checked:checked ~ .option-1 span,
+  #option-2:checked:checked ~ .option-2 span,
+  #option-3:checked:checked ~ .option-3 span{
+    color: #fff;
+  }
   `
 
   const { PDFDocument, rgb, StandardFonts } = PDFLib
@@ -453,13 +453,13 @@ input[type="radio"]{
           data: $(form).serialize(),
           success: (data) => {
             $("#recebe_miolo").empty().html(data);
-            resolve();
           },
           error: () => {
             reject(new Error('Erro na requisição.'));
           },
           complete: () => {
             loading(false);
+            resolve();
           }, dataType: "html"
         });
       });
@@ -514,14 +514,8 @@ input[type="radio"]{
         if (mode === 4) {
           await cadunOpenCad(codFam, digitoVerificador, 'buscaFamiliaForm')
             .then(() => {
-              const nomeDoRF = document.querySelector('td[title="RESPONSAVEL FAMILIAR"]')
-                .closest('tr')
-                .querySelector('td.textLeft').innerText
-                .replace((/  |\r\n|\t|\n|\r/gm), '')
-                .split('- ')[1]
-
               const downloadLink = document.createElement('a');
-              const fileName = nomeDoRF + ' - Form Principal.pdf';
+              const fileName = 'Form Principal.pdf';
               downloadLink.href = '/cadun/ImprimirFormularioPrincipalServlet';
               downloadLink.download = fileName;
               downloadLink.click();
