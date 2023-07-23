@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.07
+// @version      1.08
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -67,7 +67,7 @@ const selectOption = (selector, value) => {
       }
     }
   }
-};
+}
 
 const getCurrentDate = () => {
   const data = new Date();
@@ -76,7 +76,6 @@ const getCurrentDate = () => {
   const year = data.getFullYear();
   return { day, month, year };
 }
-
 // end utils
 
 const addQuickSearchMenu = () => {
@@ -619,7 +618,7 @@ const addEscolaridadeShortcut = () => {
   }
 
   document.getElementById('escolarIconBtn')
-    .addEventListener('click', () => { initEscCadCrawler() })
+    .addEventListener('click', initEscCadCrawler)
 }
 
 const addTrabalhoShortcut = () => {
@@ -641,7 +640,7 @@ const addTrabalhoShortcut = () => {
   }
 
   document.getElementById('trabalhoIconBtn')
-    .addEventListener('click', () => { initTrabCadCrawler() })
+    .addEventListener('click', initTrabCadCrawler)
 }
 
 const addDefaultDataFill = () => {
@@ -793,7 +792,7 @@ const addAutoAver = () => {
     await performUpdates();
   }
 
-  document.getElementById('autoAverIconBtn').addEventListener('click', initAutoUpdateCrawler())
+  document.getElementById('autoAverIconBtn').addEventListener('click', initAutoUpdateCrawler)
 }
 
 function config() {
@@ -847,22 +846,20 @@ function config() {
     flex-direction: column;
     gap: 0.3rem;
     top: 50%;
-    left: 50%;
+    left: 15%;
     transform: translate(-50%, -50%);
     z-index: 9999;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 1rem;
     border-radius: 10px;
     color: #fff;
+    font-size: 10px;
 }
 
 .config-form span {
   align-self: center;
+  font-size: 12px;
   font-weight: bold;
-}
-
-.config-form label{
-  font-size: 10px;
 }
 
 .show-config{
@@ -924,7 +921,6 @@ function RunMods() {
       el.setAttribute('onclick', "window.open('/cadun/ComprovanteCadastroServlet?telefoneOrgaoResponsavel=" + tel + "', '_self')")
     }
   }, 200)
-
   //clearInterval(intervalId)
 }
 
