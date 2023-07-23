@@ -70,6 +70,7 @@ const getCurrentDate = () => {
   const year = data.getFullYear();
   return { day, month, year };
 }
+
 // end utils
 
 const addQuickSearchMenu = () => {
@@ -84,7 +85,7 @@ const addQuickSearchMenu = () => {
       </svg>
     </div>
     <div class="tooltip hidden">
-      <span class="option-name">Auto Averiguar</span>
+      <span class="option-name">Auto Atualizar</span>
       <div class="arrow-tooltip"></div>
     </div>
   </div>
@@ -421,8 +422,8 @@ const addQuickSearchMenu = () => {
 
   // Icon search button to show or hide
   document.getElementById('searchIconBtn')
-    .addEventListener('click', () => { 
-      document.getElementById('popupDiv').classList.toggle('show') 
+    .addEventListener('click', () => {
+      document.getElementById('popupDiv').classList.toggle('show')
       document.getElementById('sBtnCon').classList.toggle('showing')
     })
 
@@ -595,25 +596,24 @@ const frmSubmitMod = (action) => {
 
 const addEscolaridadeShortcut = () => {
 
-  const initEscCadCrawler = async (url) => {
+  const initEscCadCrawler = async () => {
     cadunSelecionaPessoa(''); //native function in page
     // if (addPessoa != null) setAdicionarPessoa('', addPessoa); //native function in page
     setConsultarPessoa('', false); //native function in page
 
-    await frmSubmitMod(url)
+    await frmSubmitMod('carregarTelasPessoa.do?acao=confirmarSelecionarOutraPessoaParaEdicao&metodo=alterar')
 
     if (document.body.contains(document.getElementById('L_aviso'))) {
       document.getElementById("codigoMembroFamiliarTemp").value = document.getElementById("codigoMembroFamiliarAux").value;
       document.getElementById("codigoMembroFamiliar").value = document.getElementById("codigoMembroFamiliarAux").value;
-
       await frmSubmitMod("carregarTelasPessoa.do?acao=iniciarAlterar&continuarAtualizacaoPessoa=true")
-
-      await frmSubmitMod('iniciarAlterarEscolaridade.do?acao=iniciarAlterar')
     }
+
+    await frmSubmitMod('iniciarAlterarEscolaridade.do?acao=iniciarAlterar')
   }
 
   document.getElementById('escolarIconBtn')
-    .addEventListener('click', initEscCadCrawler('carregarTelasPessoa.do?acao=confirmarSelecionarOutraPessoaParaEdicao&metodo=alterar'))
+    .addEventListener('click', () => { initEscCadCrawler() })
 }
 
 const addTrabalhoShortcut = () => {
@@ -623,21 +623,19 @@ const addTrabalhoShortcut = () => {
     // if (addPessoa != null) setAdicionarPessoa('', addPessoa); //native function in page
     setConsultarPessoa('', false); //native function in page
 
-    await frmSubmitMod(url)
+    await frmSubmitMod('carregarTelasPessoa.do?acao=confirmarSelecionarOutraPessoaParaEdicao&metodo=alterar')
 
     if (document.body.contains(document.getElementById('L_aviso'))) {
       document.getElementById('codigoMembroFamiliarTemp').value = document.getElementById('codigoMembroFamiliarAux').value;
       document.getElementById('codigoMembroFamiliar').value = document.getElementById('codigoMembroFamiliarAux').value;
-
       await frmSubmitMod('carregarTelasPessoa.do?acao=iniciarAlterar&continuarAtualizacaoPessoa=true')
-
-      await frmSubmitMod('iniciarAlterarTrabalhoRemuneracao.do?acao=iniciarAlterar')
-
     }
+
+    await frmSubmitMod('iniciarAlterarTrabalhoRemuneracao.do?acao=iniciarAlterar')
   }
 
   document.getElementById('trabalhoIconBtn')
-    .addEventListener('click', initTrabCadCrawler('carregarTelasPessoa.do?acao=confirmarSelecionarOutraPessoaParaEdicao&metodo=alterar'))
+    .addEventListener('click', () => { initTrabCadCrawler() })
 }
 
 const addDefaultDataFill = () => {
@@ -668,17 +666,18 @@ const addDefaultDataFill = () => {
         clickRadioButton('input[name="sabeLerEscrever"]', 1);
         setFieldValues('select[name="frequentaEscola"]', 4)
         break;
-      case "8":
-        clickRadioButton('input[name="trabalhouSemanaPassada"]', 1);
-        clickRadioButton('input[name="afastadoSemanaPassada"]', 1);
-        clickCheckBox('input[name="checkRemuneracaoMes"]', 0);
-        clickRadioButton('input[name="trabalhoRemuneradoUltimoAno"]', 1);
-        clickCheckBox('input[name="checkAjudaDoacao"]', 0);
-        clickCheckBox('input[name="checkAposentadoria"]', 0);
-        clickCheckBox('input[name="checkSeguroDesemprego"]', 0);
-        clickCheckBox('input[name="checkPensaoAlimenticia"]', 0);
-        clickCheckBox('input[name="checkOutrasFontes"]', 0);
-        break;
+        case "8":
+          clickRadioButton('input[name="trabalhouSemanaPassada"]', 1);
+          clickRadioButton('input[name="afastadoSemanaPassada"]', 1);
+          clickCheckBox('input[name="checkRemuneracaoMes"]', 0);
+          document.querySelectorAll('input[name="trabalhoRemuneradoUltimoAno"]')[1].disabled = false;
+          clickRadioButton('input[name="trabalhoRemuneradoUltimoAno"]', 1);
+          clickCheckBox('input[name="checkAjudaDoacao"]', 0);
+          clickCheckBox('input[name="checkAposentadoria"]', 0);
+          clickCheckBox('input[name="checkSeguroDesemprego"]', 0);
+          clickCheckBox('input[name="checkPensaoAlimenticia"]', 0);
+          clickCheckBox('input[name="checkOutrasFontes"]', 0);
+          break;
       case "9":
         selectOption('select#tipoTelefone1', 'N');
         selectOption('select#tipoTelefone2', 'N');
@@ -797,6 +796,7 @@ function RunMods() {
 
   addQuickSearchMenu();
   addEscolaridadeShortcut();
+  addTrabalhoShortcut();
   addDefaultDataFill();
   addAutoAver();
 
