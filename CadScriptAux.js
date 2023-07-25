@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.09
+// @version      1.10
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -435,7 +435,7 @@ const addQuickSearchMenu = () => {
   //simulating form submit
   document.getElementById("formInputText").addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
-      document.getElementById("searchSubmitN").click();
+      document.getElementById("searchSubmitAf").click();
     }
   });
 
