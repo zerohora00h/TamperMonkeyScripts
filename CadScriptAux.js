@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.10
+// @version      1.11
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -430,7 +430,7 @@ const addQuickSearchMenu = () => {
     .addEventListener('click', () => {
       document.getElementById('popupDiv').classList.toggle('show')
       document.getElementById('sBtnCon').classList.toggle('showing')
-    })
+  })
 
   //simulating form submit
   document.getElementById("formInputText").addEventListener("keydown", function (event) {
@@ -450,6 +450,17 @@ const addQuickSearchMenu = () => {
     // options: 1 = cod familiar, 2 = cpf, 3 = nis
 
     const inputText = document.querySelector('#formInputText').value
+
+    if (selectedOption === '1' && mode === 1) {
+      let num = inputText.replace(/[^\d]/g, ''); // remove all non-numeric characters
+
+      const code1 = num.slice(0, -2).padStart(9, '0');
+      const code2 = num.slice(-2);
+      await cadunOpenCad(code1, code2, 'buscaFamiliaForm')
+      cadunAlterarFamilia()
+
+      return
+    }
 
     const { url, data } = formatForm(inputText, selectedOption)
 
@@ -502,10 +513,6 @@ const addQuickSearchMenu = () => {
 
     await fetchData(url, data)
       .then(async () => {
-        if (selectedOption === '1' && mode === 1) {
-          cadunAlterarFamilia() //native function in page
-          return
-        }
 
         let validCad = document.querySelector('td[title="CADASTRADO"]').closest('tr').attributes[1]
         let infoFoundCad = validCad.value.split("'")
