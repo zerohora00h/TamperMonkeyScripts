@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.11
+// @version      1.12
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -18,8 +18,6 @@ const observacoesTextoAvKey = 'observacoesTextoAv';
 const telKey = 'tel';
 const cidadeKey = 'cidade';
 
-const cpfEntrevistador = GM_getValue(cpfKey);
-const observacoesTextoAv = GM_getValue(observacoesTextoAvKey);
 const tel = GM_getValue(telKey);
 const cidade = GM_getValue(cidadeKey);
 
@@ -76,6 +74,32 @@ const getCurrentDate = () => {
   const year = data.getFullYear();
   return { day, month, year };
 }
+
+const frmSubmitMod = (action, frmData) => {
+  return new Promise((resolve, reject) => {
+    loading(true);
+    let form = document.getElementById("formularioForm");
+
+    $.ajax({
+      type: "POST",
+      url: action,
+      data: frmData ? frmData : $(form).serialize(),
+      success: function (data) {
+        $("#recebe_miolo").empty().html(data);
+        resolve();
+      },
+      error: function (jqXHR) {
+        $("#recebe_miolo").empty().html(jqXHR.responseText).css("height", "auto");
+        $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno");
+        reject(new Error("Erro na requisição."));
+      },
+      complete: function () {
+        loading(false)
+      },
+      dataType: "html"
+    });
+  });
+};
 // end utils
 
 const addQuickSearchMenu = () => {
@@ -430,7 +454,7 @@ const addQuickSearchMenu = () => {
     .addEventListener('click', () => {
       document.getElementById('popupDiv').classList.toggle('show')
       document.getElementById('sBtnCon').classList.toggle('showing')
-  })
+    })
 
   //simulating form submit
   document.getElementById("formInputText").addEventListener("keydown", function (event) {
@@ -450,42 +474,6 @@ const addQuickSearchMenu = () => {
     // options: 1 = cod familiar, 2 = cpf, 3 = nis
 
     const inputText = document.querySelector('#formInputText').value
-
-    if (selectedOption === '1' && mode === 1) {
-      let num = inputText.replace(/[^\d]/g, ''); // remove all non-numeric characters
-
-      const code1 = num.slice(0, -2).padStart(9, '0');
-      const code2 = num.slice(-2);
-      await cadunOpenCad(code1, code2, 'buscaFamiliaForm')
-      cadunAlterarFamilia()
-
-      return
-    }
-
-    const { url, data } = formatForm(inputText, selectedOption)
-
-    const fetchData = (url, data) => {
-      return new Promise((resolve, reject) => {
-        $.ajax({
-          type: 'POST',
-          url: url,
-          data: data,
-          success: function (data) {
-            $('#recebe_miolo').empty().html(data);
-            resolve();
-          },
-          error: function (jqXHR) {
-            $('#recebe_miolo').empty().html(jqXHR.responseText).css('height', 'auto');
-            $('#breadcrumb').html('> Cadastro &Uacute;nico > Erro Interno');
-            reject(new Error('Erro na requisição.'));
-          },
-          complete: () => {
-            loading(false);
-          },
-          dataType: 'html'
-        });
-      });
-    };
 
     const cadunOpenCad = (codFam, digitoVerificador, formId) => {
       return new Promise((resolve, reject) => {
@@ -511,62 +499,67 @@ const addQuickSearchMenu = () => {
       });
     };
 
-    await fetchData(url, data)
-      .then(async () => {
+    const { url, data } = formatForm(inputText, selectedOption)
 
-        let validCad = document.querySelector('td[title="CADASTRADO"]').closest('tr').attributes[1]
-        let infoFoundCad = validCad.value.split("'")
-        let codFam = infoFoundCad[1];
-        let digitoVerificador = infoFoundCad[3];
-        validCad.value = ""
+    await frmSubmitMod(url, data)
 
-        if (!validCad) return
+    if (selectedOption === '1' && mode === 1) {
+      cadunAlterarFamilia()
+      return
+    }
 
-        if (mode === 1) {
-          await cadunOpenCad(codFam, digitoVerificador, 'buscaFamiliaForm')
-            .then(() => {
-              cadunAlterarFamilia()
-            }).catch((err) => {
-              console.log(err)
-            })
+    let validCad = document.querySelector('td[title="CADASTRADO"]').closest('tr').attributes[1]
+    let infoFoundCad = validCad.value.split("'")
+    let codFam = infoFoundCad[1];
+    let digitoVerificador = infoFoundCad[3];
+    validCad.value = ""
 
-          return
-        }
+    if (!validCad) return
 
-        if (mode === 2) {
-          await cadunOpenCad(codFam, digitoVerificador, 'buscaFamiliaForm')
-            .catch((err) => {
-              console.log(err)
-            })
+    if (mode === 1) {
+      await cadunOpenCad(codFam, digitoVerificador, 'buscaFamiliaForm')
+        .then(() => {
+          cadunAlterarFamilia()
+        }).catch((err) => {
+          console.log(err)
+        })
 
-          return
-        }
+      return
+    }
 
-        if (mode === 3) {
-          await cadunOpenCad(codFam, digitoVerificador, 'buscaFamiliaForm')
-            .then(() => {
-              downloadFrEdit('/cadun/ImprimirFolhaResumoServlet')
-            }).catch((err) => {
-              console.log(err)
-            })
+    if (mode === 2) {
+      await cadunOpenCad(codFam, digitoVerificador, 'buscaFamiliaForm')
+        .catch((err) => {
+          console.log(err)
+        })
 
-          return
-        }
+      return
+    }
 
-        if (mode === 4) {
-          await cadunOpenCad(codFam, digitoVerificador, 'buscaFamiliaForm')
-            .then(() => {
-              const downloadLink = document.createElement('a');
-              const fileName = 'Form Principal.pdf';
-              downloadLink.href = '/cadun/ImprimirFormularioPrincipalServlet';
-              downloadLink.download = fileName;
-              downloadLink.click();
-            })
-            .catch((err) => {
-              console.log(err)
-            })
-        }
-      });
+    if (mode === 3) {
+      await cadunOpenCad(codFam, digitoVerificador, 'buscaFamiliaForm')
+        .then(() => {
+          downloadFrEdit('/cadun/ImprimirFolhaResumoServlet')
+        }).catch((err) => {
+          console.log(err)
+        })
+
+      return
+    }
+
+    if (mode === 4) {
+      await cadunOpenCad(codFam, digitoVerificador, 'buscaFamiliaForm')
+        .then(() => {
+          const downloadLink = document.createElement('a');
+          const fileName = 'Form Principal.pdf';
+          downloadLink.href = '/cadun/ImprimirFormularioPrincipalServlet';
+          downloadLink.download = fileName;
+          downloadLink.click();
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
 
   document.getElementById('searchSubmitAf').addEventListener('click', async () => {
@@ -574,44 +567,18 @@ const addQuickSearchMenu = () => {
   })
 
   document.getElementById('searchSubmitN').addEventListener('click', async () => {
-    findPerson(2)
+    await findPerson(2)
   })
 
   document.getElementById('searchSubmitFr').addEventListener('click', async () => {
-    findPerson(3)
+    await findPerson(3)
   })
 
   document.getElementById('searchSubmitFp').addEventListener('click', async () => {
-    findPerson(4)
+    await findPerson(4)
   })
 
 }
-
-const frmSubmitMod = (action) => {
-  return new Promise((resolve, reject) => {
-    loading(true);
-    let form = document.getElementById("formularioForm");
-
-    $.ajax({
-      type: "POST",
-      url: action,
-      data: $(form).serialize(),
-      success: function (data) {
-        $("#recebe_miolo").empty().html(data);
-        resolve();
-      },
-      error: function (jqXHR) {
-        $("#recebe_miolo").empty().html(jqXHR.responseText).css("height", "auto");
-        $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno");
-        reject(new Error("Erro na requisição."));
-      },
-      complete: function () {
-        loading(false)
-      },
-      dataType: "html"
-    });
-  });
-};
 
 const addEscolaridadeShortcut = () => {
 
@@ -743,11 +710,11 @@ const addAutoAver = () => {
     let nomeRuaOriginal = document.querySelector('input[name="nomeLogradouro"]').value
 
     setFieldValues('input[name="nomeLogradouro"]', "SEM NOME");
-    setFieldValues('input[name="cpfEntrevistador"]', cpfEntrevistador);
-    setFieldValues('textarea[name="observacoes"]', observacoesTextoAv);
+    setFieldValues('input[name="cpfEntrevistador"]', GM_getValue(cpfKey));
+    setFieldValues('textarea[name="observacoes"]', GM_getValue(observacoesTextoAvKey));
 
     function cadunObterEntrevistadorMod() {
-      if (cpfEntrevistador.cadunTrim() == "") {
+      if (GM_getValue(cpfKey).cadunTrim() == "") {
         $("#nomeEntrevistador").empty().html("CPF n&atilde;o informado.");
         return;
       }
@@ -756,7 +723,7 @@ const addAutoAver = () => {
       return new Promise((resolve, reject) => {
         $.ajax({
           type: "GET"
-          , url: 'AjaxRequestsServlet?acao=buscarEntrevistador&nameSpace=&cpf=' + cpfEntrevistador
+          , url: 'AjaxRequestsServlet?acao=buscarEntrevistador&nameSpace=&cpf=' + GM_getValue(cpfKey)
           , success: function (data) {
             resolve();
             try {
@@ -928,14 +895,40 @@ function RunMods() {
   addDefaultDataFill();
   addAutoAver();
 
-  let intervalId = window.setInterval(function () {
-    let el = document.querySelector('a[title="Emissão Comprovante Cadastro"]')
-    if (el === null) return
+  let intervalId = null;
+
+  function adicionarNovoElemento() {
+    let el = document.querySelector('a[title="Emissão Comprovante Cadastro"]');
+    if (el === null) return;
     if (el.onclick) {
-      el.setAttribute('onclick', "window.open('/cadun/ComprovanteCadastroServlet?telefoneOrgaoResponsavel=" + tel + "', '_self')")
+      el.setAttribute('onclick', "window.open('/cadun/ComprovanteCadastroServlet?telefoneOrgaoResponsavel=" + tel + "', '_self')");
     }
-  }, 200)
-  //clearInterval(intervalId)
+
+    const novoLi = document.createElement('li');
+    novoLi.innerHTML = '- <a title="Histórico Família (Rápido)" id="historicoRapido" style="color: green;">Histórico Família (Rápido)</a>';
+
+    const exibeHistoricoLink = document.querySelector('a[title="Histórico Família"]');
+    exibeHistoricoLink.parentElement.appendChild(novoLi);
+
+    const historicoRapido = () => {
+      const codFam = document.querySelector('input[name="codigoFamilia"]').value;
+      let { day, month, year } = getCurrentDate();
+      window.open(`https://cadastrounico.caixa.gov.br/cadun/AjaxRequestsServlet?acao=buscarOperacaoHistoricoFamilia&codigoFamiliar=${codFam}&dia_data_inicio=01&mes_data_inicio=01&ano_data_inicio=2021&dia_data_fim=${day}&mes_data_fim=${month}&ano_data_fim=${year}&camposHistoricoSelecionados=249,965,386,140,18,47,215,229,309,218,247,9,10,236,311,33,30,211,243,25,150,129,314,315,154,153,84,77,89,127,201,145,107,133,401,166,402,135,403,332,320,317,324,323,357,351,358,353,370,354,359,383,2,208,253,955,954,304,953,958,957,503,956,961,960,959,978,979,980,981,982,137,966,518,295,524,526,525,551,554,962,109,431,432,37,39,433,57,130,434,43,438,501,384,28,330,331,364,967,106`, '_blank');
+    };
+
+    novoLi.addEventListener('click', historicoRapido);
+  }
+
+  // Se o elemento com ID "historicoRapido" não existir, reativa o intervalo
+
+  intervalId = setInterval(() => { 
+    if(!document.getElementById("historicoRapido")) {
+      adicionarNovoElemento();
+    }
+   }, 200);
+
+
+  adicionarNovoElemento()
 }
 
 RunMods()
