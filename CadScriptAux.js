@@ -905,7 +905,7 @@ function RunMods() {
     }
 
     const novoLi = document.createElement('li');
-    novoLi.innerHTML = '- <a title="Histórico Família (Rápido)" id="historicoRapido">Histórico Família (Rápido)</a>';
+    novoLi.innerHTML = '- <a title="Histórico Família (Rápido)" id="historicoRapido">Histórico da Família (Rápido)</a>';
 
     const exibeHistoricoLink = document.querySelector('a[title="Histórico Família"]');
     exibeHistoricoLink.parentElement.appendChild(novoLi);
