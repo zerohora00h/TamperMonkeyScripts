@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.12
+// @version      1.13
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -929,6 +929,67 @@ function RunMods() {
 
 
   adicionarNovoElemento()
+
+  //add temporarimante porque o sistema nao veio com essas funcoes
+  function exibirDiv(id) {
+    var div = document.getElementById(id);
+    
+    if (div.style.display === "none") {
+      div.style.display = "block";
+    } else {
+      div.style.display = "none";
+    }
+  }
+
+  function enviarArquivo(acao){
+	
+    loading(true);
+    
+    var divUpload = document.getElementById('L_aviso');	
+      
+      var term = document.getElementById("termoresponsabilidade");
+    
+      var formData = new FormData();	
+      formData.append('file', document.getElementById("fileInput").files[0]);
+      formData.append('file2', document.getElementById("fileInput2").files[0]);
+      formData.append('acao', acao);
+      formData.append('termo', term.checked);
+      formData.append('codigoFamilia', document.getElementById("codigoFamilia").value);
+      formData.append('dvFamilia', document.getElementById("dvFamilia").value);
+      
+      var divUpload = document.getElementById('L_aviso');	
+      
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'FileUploadServlet', true);	
+      xhr.send(formData);
+        
+      
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          try {
+            if(xhr.responseText != ''){
+              divUpload.style.display = 'block';
+              divUpload.innerHTML = xhr.responseText;
+              loading(false);
+            }else{
+              divUpload.style.display = 'block';
+              document.getElementById("divtermoresponsabilidade").style.display = 'none';
+              divUpload.innerHTML = 'Arquivos validados com sucesso!'
+              loading(false);	
+            }
+          } catch(Exception) {
+            $("#recebe_miolo").empty().html(xhr.responseText).css("height","auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno");
+            loading(false);	
+          }
+        } else {
+          $("#recebe_miolo").empty().html(xhr.responseText).css("height","auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno");
+          loading(false);
+        }
+      };
+  }
+
+  unsafeWindow.exibirDiv = exibirDiv;
+  unsafeWindow.enviarArquivo = enviarArquivo;
 }
 
 RunMods()
