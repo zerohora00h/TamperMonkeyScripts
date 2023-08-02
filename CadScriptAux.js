@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.13
+// @version      1.14
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -905,7 +905,7 @@ function RunMods() {
     }
 
     const novoLi = document.createElement('li');
-    novoLi.innerHTML = '- <a title="Histórico Família (Rápido)" id="historicoRapido" style="color: green;">Histórico Família (Rápido)</a>';
+    novoLi.innerHTML = '- <a title="Histórico Família (Rápido)" id="historicoRapido">Histórico Família (Rápido)</a>';
 
     const exibeHistoricoLink = document.querySelector('a[title="Histórico Família"]');
     exibeHistoricoLink.parentElement.appendChild(novoLi);
