@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Replace Youtube Player
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  This simple script changes the YouTube player for an embed of the video, this allows the video to run without ads, since ads are not displayed in embeds.
 // @author       ZeroHora
 // @match        *://www.youtube.com/watch*
@@ -57,7 +57,10 @@ function show(element) {
 
 const intervalId = setInterval(() => {
 
-    const iframe = document.querySelector('#injected-iframe').contentDocument
+    let iframe = document.querySelector('#injected-iframe')
+    if(!iframe) clearInterval(intervalId);
+
+    iframe = iframe.contentDocument
 
     const shareButton = iframe.querySelector('.ytp-button.ytp-share-button.ytp-show-share-title.ytp-share-button-visible')
 
@@ -106,10 +109,21 @@ const getVideoId = () => {
 (function() {
     'use strict';
 
-    app(getVideoId())
+    if(document.location.href.includes('watch')) { app(getVideoId()) }
+
+      const checkUrl = setInterval(() => {
+
+      if(!document.location.href.includes('watch') && document.querySelector('#injected-iframe')) {
+        document.querySelector('#injected-iframe').remove()
+        clearInterval(checkUrl);
+      }
+
+    }, 500);
 
     navigation.addEventListener('navigate', (event) => {
-         const url = event.destination.url;
+        const url = event.destination.url;
+
+        if(!url.includes('watch')) return
 
         // A regular expression to find the value of the parameter "v"
         const match = url.match(/[?&]v=([^&]+)/);
