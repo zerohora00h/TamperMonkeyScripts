@@ -10,6 +10,8 @@
 // @downloadURL  https://raw.githubusercontent.com/zerohora00h/TamperMonkeyScripts/main/YoutubePlayerChangeToEmbed.js
 // ==/UserScript==
 
+//I don't recommend using this script, it's saved here just for testing. It has several issues with it that can be annoying
+
 const app = (videoId) => {
 
 if(!videoId) return
