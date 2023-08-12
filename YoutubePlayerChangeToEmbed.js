@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Replace Youtube Player
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  This simple script changes the YouTube player for an embed of the video, this allows the video to run without ads, since ads are not displayed in embeds.
 // @author       ZeroHora
-// @match        *://www.youtube.com/watch*
+// @match        *://www.youtube.com/*
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/zerohora00h/TamperMonkeyScripts/main/YoutubePlayerChangeToEmbed.js
 // @downloadURL  https://raw.githubusercontent.com/zerohora00h/TamperMonkeyScripts/main/YoutubePlayerChangeToEmbed.js
