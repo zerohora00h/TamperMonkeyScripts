@@ -13,7 +13,7 @@ To avoid this, right click on the full screen button, or click on the video once
 
 This script will do nothing if an adblock is not active
 
-==========================================================================================
+***
 
 ## VEED.io Subtitle SRT Download
 With this script you can download auto generated VEED.io subtitles for free.
