@@ -1,3 +1,19 @@
+## Youtube Player Change To Embed
+
+This script removes the youtube error and adds an Embed video on top, which works perfectly like the original. If you want to help improve it, feel free.
+
+Youtube Error Example:
+![Img error](/screenshots/yt-error-message.png)
+
+Some videos may not work, as the creator can remove the "embed" option from the video, but it will be rare to find one that does this.
+
+For some reason not yet known, if you don't click on the video and try to use the shortcut F for full screen, it will make the video reload.
+To avoid this, right click on the full screen button, or click on the video once and then press F.
+
+This script will do nothing if an adblock is not active
+
+==========================================================================================
+
 ## VEED.io Subtitle SRT Download
 With this script you can download auto generated VEED.io subtitles for free.
 1) Install Tampermonkey on your browser.
