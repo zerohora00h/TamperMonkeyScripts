@@ -3,7 +3,7 @@
 This script removes the youtube error and adds an Embed video on top, which works perfectly like the original. If you want to help improve it, feel free.
 
 Youtube Error Example:
-![Img error](/screenshots/yt-error-message.png)
+![ad blockers violate youtube's terms of service](/screenshots/yt-error-message.png)
 
 Some videos may not work, as the creator can remove the "embed" option from the video, but it will be rare to find one that does this.
 
