@@ -1,5 +1,5 @@
 ## Youtube Player Change To Embed
-## Youtube Anti Adblock Bypasser
+### Youtube Anti Adblock Bypasser
 
 This script removes the youtube error and adds an Embed video on top, which works perfectly like the original. If you want to help improve it, feel free.
 
