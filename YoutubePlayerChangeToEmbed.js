@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Anti Adblock Bypasser
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  This simple script changes the YouTube player for an embed of the video, this allows the video to run without ads, since ads are not displayed in embeds.
 // @author       ZeroHora
 // @match        *://www.youtube.com/*
@@ -22,7 +22,7 @@ document.addEventListener('yt-navigate-start', function () {
 });
 
 function initNewPlayer(userEmbedURL, adblockMessageParent) {
-    document.querySelector("#error-screen").style.cssText = "z-index: 0 !important;"; //makes the player not stay on top of the side menu
+    document.querySelector("#error-screen").style.cssText = "z-index: 500 !important;"; //makes the player not stay on top of the side menu
     console.log("[INFO] Creating player");
     let newPlayer = document.createElement("iframe");
     newPlayer.setAttribute("id", "YTPLAYERINJECTED");
