@@ -37,7 +37,7 @@ document.addEventListener('yt-navigate-finish', function () {
 
     let userEmbedURLFormat = window.location.href.replace("watch?v=", "embed/");
 
-    let userEmbedURL = userEmbedURLFormat.slice(0, 41) + "?autoplay=1";
+    let userEmbedURL = userEmbedURLFormat.slice(0, 41) + "?autoplay=1&modestbranding=1";
 
     setTimeout(function () {
         const injectedIframe = document.getElementById("YTPLAYERINJECTED");
