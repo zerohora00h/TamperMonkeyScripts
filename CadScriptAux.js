@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.14
+// @version      1.15
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -656,7 +656,7 @@ const addDefaultDataFill = () => {
         clickRadioButton('input[name="trabalhouSemanaPassada"]', 1);
         clickRadioButton('input[name="afastadoSemanaPassada"]', 1);
         clickCheckBox('input[name="checkRemuneracaoMes"]', 0);
-        document.querySelectorAll('input[name="trabalhoRemuneradoUltimoAno"]')[1].disabled = false;
+        document.querySelectorAll('input[name="trabalhouSemanaPassada"]')[1].disabled ? '' : document.querySelectorAll('input[name="trabalhoRemuneradoUltimoAno"]')[1].disabled = false;
         clickRadioButton('input[name="trabalhoRemuneradoUltimoAno"]', 1);
         clickCheckBox('input[name="checkAjudaDoacao"]', 0);
         clickCheckBox('input[name="checkAposentadoria"]', 0);
