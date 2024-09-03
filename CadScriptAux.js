@@ -5,6 +5,7 @@
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
 // @match        https://www.cadastrounico.caixa.gov.br/cadun/*
+// @match        https://login.caixa.gov.br/auth/realms/internet/protocol/openid-connect/*
 // @require      https://unpkg.com/pdf-lib/dist/pdf-lib.js
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        GM_getValue
@@ -649,8 +650,29 @@ const addDefaultDataFill = () => {
         clickRadioButton('input[name="possuiDeficiencia"]', 1);
         break;
       case "7":
-        clickRadioButton('input[name="sabeLerEscrever"]', 1);
-        setFieldValues('select[name="frequentaEscola"]', 4)
+        // Obtenha os valores dos selects
+        let frequentaEscola = document.querySelector('select[name="frequentaEscola"]').value;
+        let tipoCursoFrequenta = document.querySelector('select[name="tipoCursoFrequenta"]').value;
+        let anoSerieCursoFrequenta = document.querySelector('select[name="anoSerieCursoFrequenta"]').value;
+
+        //se já está estudando
+        if (frequentaEscola === '1') {
+                // Se a serie for maior que a quarta
+                if (['3', '4', '5'].includes(tipoCursoFrequenta) && parseInt(anoSerieCursoFrequenta) > 4) {
+                    clickRadioButton('input[name="sabeLerEscrever"]', 0);
+                } else if (['7', '8', '11'].includes(tipoCursoFrequenta)) { // Se tiver no ensino médio
+                    clickRadioButton('input[name="sabeLerEscrever"]', 0);
+                } else {
+                    clickRadioButton('input[name="sabeLerEscrever"]', 1);
+                }
+            } else if (frequentaEscola === '') {
+                // Se frequentaEscola ainda nao tiver sido definido (provavel inclusão)
+                setFieldValues('select[name="frequentaEscola"]', 4);
+                clickRadioButton('input[name="sabeLerEscrever"]', 1);
+            } else {
+                // clique opção padrão
+                clickRadioButton('input[name="sabeLerEscrever"]', 1);
+            }
         break;
       case "8":
         clickRadioButton('input[name="trabalhouSemanaPassada"]', 1);
@@ -928,68 +950,7 @@ function RunMods() {
    }, 200);
 
 
-  adicionarNovoElemento()
-
-  //add temporarimante porque o sistema nao veio com essas funcoes
-  function exibirDiv(id) {
-    var div = document.getElementById(id);
-    
-    if (div.style.display === "none") {
-      div.style.display = "block";
-    } else {
-      div.style.display = "none";
-    }
-  }
-
-  function enviarArquivo(acao){
-	
-    loading(true);
-    
-    var divUpload = document.getElementById('L_aviso');	
-      
-      var term = document.getElementById("termoresponsabilidade");
-    
-      var formData = new FormData();	
-      formData.append('file', document.getElementById("fileInput").files[0]);
-      formData.append('file2', document.getElementById("fileInput2").files[0]);
-      formData.append('acao', acao);
-      formData.append('termo', term.checked);
-      formData.append('codigoFamilia', document.getElementById("codigoFamilia").value);
-      formData.append('dvFamilia', document.getElementById("dvFamilia").value);
-      
-      var divUpload = document.getElementById('L_aviso');	
-      
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'FileUploadServlet', true);	
-      xhr.send(formData);
-        
-      
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          try {
-            if(xhr.responseText != ''){
-              divUpload.style.display = 'block';
-              divUpload.innerHTML = xhr.responseText;
-              loading(false);
-            }else{
-              divUpload.style.display = 'block';
-              document.getElementById("divtermoresponsabilidade").style.display = 'none';
-              divUpload.innerHTML = 'Arquivos validados com sucesso!'
-              loading(false);	
-            }
-          } catch(Exception) {
-            $("#recebe_miolo").empty().html(xhr.responseText).css("height","auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno");
-            loading(false);	
-          }
-        } else {
-          $("#recebe_miolo").empty().html(xhr.responseText).css("height","auto"); $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno");
-          loading(false);
-        }
-      };
-  }
-
-  unsafeWindow.exibirDiv = exibirDiv;
-  unsafeWindow.enviarArquivo = enviarArquivo;
+  adicionarNovoElemento();
 }
 
 RunMods()
