@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.15
+// @version      1.16
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
