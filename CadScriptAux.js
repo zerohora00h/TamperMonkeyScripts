@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.16
+// @version      1.17
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -951,6 +951,55 @@ function RunMods() {
 
 
   adicionarNovoElemento();
+
+function monitorAjaxAndHandleForm() {
+    let open = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url) {
+        if (url.includes('AjaxRequestsServlet?acao=listaAnoSerieCursoFrequenta')) {
+            this.addEventListener('load', function() {
+                // A requisição AJAX foi concluída
+                console.log('Requisição AJAX concluída:', url);
+
+                // Adiciona um pequeno delay antes de continuar
+                setTimeout(function() {
+                    let tipoCursoFrequenta = document.querySelector('select[name="tipoCursoFrequenta"]').value;
+
+                    let anoSerieCursoFrequentaSelect = document.querySelector('select[name="anoSerieCursoFrequenta"]');
+
+                    if (anoSerieCursoFrequentaSelect) {
+                        // Adiciona o evento onchange
+                        anoSerieCursoFrequentaSelect.addEventListener('change', function() {
+                            let anoSerieCursoFrequenta = parseInt(this.value, 10);
+
+                            if (!['3', '4', '5'].includes(tipoCursoFrequenta)) return; //se não tiver no ensino fundamental, retorna
+
+                            if (anoSerieCursoFrequenta > 4) {
+                                clickRadioButton('input[name="sabeLerEscrever"]', 0);
+                            } else {
+                                clickRadioButton('input[name="sabeLerEscrever"]', 1);
+                            }
+                        });
+
+                        // Executa a lógica inicial com o valor atual de anoSerieCursoFrequenta
+                        let anoSerieCursoFrequenta = anoSerieCursoFrequentaSelect.value;
+
+                        if (['7', '8', '11'].includes(tipoCursoFrequenta)) { // Se tiver no ensino médio
+                            clickRadioButton('input[name="sabeLerEscrever"]', 0);
+                        } else {
+                            clickRadioButton('input[name="sabeLerEscrever"]', 1);
+                        }
+                    } else {
+                        console.log('Select anoSerieCursoFrequenta não encontrado.');
+                    }
+                }, 1000); // Delay de 1 segundo
+            });
+        }
+        open.apply(this, arguments);
+    };
+}
+
+
+    monitorAjaxAndHandleForm()
 }
 
 RunMods()
