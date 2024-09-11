@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.17
+// @version      1.18
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -19,8 +19,8 @@ const observacoesTextoAvKey = 'observacoesTextoAv';
 const telKey = 'tel';
 const cidadeKey = 'cidade';
 
-const tel = GM_getValue(telKey);
-const cidade = GM_getValue(cidadeKey);
+const tel = GM_getValue(telKey) || '';
+const cidade = GM_getValue(cidadeKey) || '';
 
 const injectHtmlCss = (html, css) => {
   const style = document.createElement('style');
@@ -199,6 +199,11 @@ const addQuickSearchMenu = () => {
         <button id="searchSubmitN">
           Buscar (Normal)
         </button>
+
+        <button id="checkCadSubmit">
+          V. Cadastro (Rápido)
+        </button>
+
         <div class="flex">
           <button id="searchSubmitFr">
             F. Resumo
@@ -225,14 +230,14 @@ const addQuickSearchMenu = () => {
     z-index: 9999;
     font-size: var(--fs);
   }
-  
+
   .mini-menu-container {
     position: absolute;
     top: -250%;
     right: 120%;
     display: none;
   }
-  
+
   .mini-menu{
     display: flex;
     flex-direction: column;
@@ -242,7 +247,7 @@ const addQuickSearchMenu = () => {
     border-radius: 1rem;
     gap: 1em;
   }
-  
+
   .options {
     --b-r: 0.7rem;
     display: flex;
@@ -255,17 +260,17 @@ const addQuickSearchMenu = () => {
     align-content: center;
     border-radius: var(--b-r) 0 0 var(--b-r);
   }
-  
+
   .options:not(.showing):hover{
     --hidden: inline;
     transform: translateX(-2px);
   }
-  
+
   .showing{
     transform: translateX(-2px);
     background: hsl(209, 100%, 30%);
   }
-  
+
   .tooltip {
     position: absolute;
     background: hsl(217, 19%, 40%);
@@ -275,11 +280,11 @@ const addQuickSearchMenu = () => {
     right: 120%;
     white-space: nowrap;
   }
-  
+
   .arrow-container {
     position: relative;
   }
-  
+
   .arrow-tooltip {
     position: absolute;
     top: 35%;
@@ -290,50 +295,50 @@ const addQuickSearchMenu = () => {
     border-width: 5px 0 5px 5px;
     border-color: transparent transparent transparent hsl(217, 19%, 40%);
   }
-  
+
   .option-name {
     font-weight: bold;
   }
-  
+
   .icon {
     width: 20px;
     cursor: pointer;
   }
-  
+
   .hidden {
     display: var(--hidden)
   }
-  
+
   .show {
     display: block;
   }
-  
+
   .mini-menu-container .show:hover{
     transform: none;
   }
-  
+
   .input-mm {
     border-radius: 0.4rem;
     border-style: none;
     padding: 0.5rem;
     font-size: var(--fs);
   }
-  
+
   .flex {
     display: flex;
     align-self: center;
     width: 100%;
     gap: 1em;
   }
-  
+
   .radios-container{
     display: flex;
   }
-  
+
   .tools-menu input[type="radio"]{
     display: none;
   }
-  
+
   .radios-container .option{
     background: #fff;
     height: 100%;
@@ -347,7 +352,7 @@ const addQuickSearchMenu = () => {
     padding: .2rem .5rem;
     border: 2px solid lightgrey;
   }
-  
+
   .tools-menu button {
     background: hsl(211, 100%, 43%);
     flex-grow: 1;
@@ -358,22 +363,22 @@ const addQuickSearchMenu = () => {
     border: none;
     font-size: var(--fs);
   }
-  
+
   .tools-menu button:hover{
     background: hsl(211, 100%, 43%, 0.5);
   }
-  
+
   #option-1:checked:checked ~ .option-1,
   #option-2:checked:checked ~ .option-2,
   #option-3:checked:checked ~ .option-3{
     border-color: #0069d9;
     background: #0069d9;
   }
-  
+
   .radios-container .option span{
     color: #808080;
   }
-  
+
   #option-1:checked:checked ~ .option-1 span,
   #option-2:checked:checked ~ .option-2 span,
   #option-3:checked:checked ~ .option-3 span{
@@ -465,16 +470,71 @@ const addQuickSearchMenu = () => {
   });
 
   const findPerson = async (mode = 1) => {
-    // modes: 1 = alterar familia, 2 = normal, 3 = folha resumo, 4 = formulario principal
+    // modes: 1 = alterar familia, 2 = normal, 3 = folha resumo, 4 = formulario principal, 5 = verificar se tem cadastro
 
     document.getElementById('popupDiv').classList.toggle('show')
     document.getElementById('sBtnCon').classList.toggle('showing')
-    loading(true) //native function in page
+    if (mode !== 5) loading(true) //native function in page
 
     const selectedOption = document.querySelector('input[name="select"]:checked').id.split('-')[1]
     // options: 1 = cod familiar, 2 = cpf, 3 = nis
 
     const inputText = document.querySelector('#formInputText').value
+
+    if (mode === 5) { //está acima para cancelar o restante
+
+      async function checkHaveCad() {
+        try {
+          let response = await fetch("https://cadastrounico.caixa.gov.br/cadun/buscaFamiliaCpfPessoa.do?acao=consultarCpfPessoa", {
+            headers: {
+              "accept": "text/html, */*; q=0.01",
+              "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7,ru;q=0.6,es;q=0.5",
+              "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+              "priority": "u=1, i",
+              "sec-ch-ua": "\"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"",
+              "sec-ch-ua-mobile": "?0",
+              "sec-ch-ua-platform": "\"Windows\"",
+              "sec-fetch-dest": "empty",
+              "sec-fetch-mode": "cors",
+              "sec-fetch-site": "same-origin",
+              "x-requested-with": "XMLHttpRequest"
+            },
+            referrer: "https://cadastrounico.caixa.gov.br/cadun/abrirAplicacao.do",
+            referrerPolicy: "strict-origin-when-cross-origin",
+            body: `acao=iniciarBuscaFamilia&codigoFamiliaComDv=&codigoPessoaNis=${inputText}&numeroCPF=${inputText}&codigoFamilia=&dvFamilia=&nome=&diaNascimento=&mesNascimento=&anoNascimento=&nomeMae=&nomePai=&tipoCertidao=&certidao=&ufCertidao=&numeroRG=&numeroTitulo=&numeroCTPS=`,
+            method: "POST",
+            mode: "cors",
+            credentials: "include"
+          });
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          let responseText = await response.text(); // Use .json() se a resposta for JSON
+
+          // Verifica se o texto contém a substring desejada
+          if (responseText.includes('<td title="CADASTRADO">')) {
+            // Se o texto contém a substring, mostra um prompt de confirmação
+            let userConfirmed = confirm(inputText + ' está em um cadastro. Deseja gerenciar esta família?');
+
+            if (userConfirmed) {
+              // Se o usuário clicar em "OK", chama a função abreLink
+              abreLink('recebe_miolo', 'inicializarGerirFamilia.do?acao=iniciarPortletGerirFamilia', 'Gerir Família');
+            }
+          } else {
+            // Se o texto não contém a substring, mostra um alerta simples
+            alert(inputText + ' NÃO está em um cadastro.');
+          }
+        } catch (error) {
+          console.error('There was a problem with the fetch operation:', error);
+        }
+      }
+
+      checkHaveCad()
+
+      return
+    }
 
     const cadunOpenCad = (codFam, digitoVerificador, formId) => {
       return new Promise((resolve, reject) => {
@@ -579,6 +639,10 @@ const addQuickSearchMenu = () => {
     await findPerson(4)
   })
 
+  document.getElementById('checkCadSubmit').addEventListener('click', async () => {
+    await findPerson(5)
+  })
+
 }
 
 const addEscolaridadeShortcut = () => {
@@ -657,22 +721,22 @@ const addDefaultDataFill = () => {
 
         //se já está estudando
         if (frequentaEscola === '1') {
-                // Se a serie for maior que a quarta
-                if (['3', '4', '5'].includes(tipoCursoFrequenta) && parseInt(anoSerieCursoFrequenta) > 4) {
-                    clickRadioButton('input[name="sabeLerEscrever"]', 0);
-                } else if (['7', '8', '11'].includes(tipoCursoFrequenta)) { // Se tiver no ensino médio
-                    clickRadioButton('input[name="sabeLerEscrever"]', 0);
-                } else {
-                    clickRadioButton('input[name="sabeLerEscrever"]', 1);
-                }
-            } else if (frequentaEscola === '') {
-                // Se frequentaEscola ainda nao tiver sido definido (provavel inclusão)
-                setFieldValues('select[name="frequentaEscola"]', 4);
-                clickRadioButton('input[name="sabeLerEscrever"]', 1);
-            } else {
-                // clique opção padrão
-                clickRadioButton('input[name="sabeLerEscrever"]', 1);
-            }
+          // Se a serie for maior que a quarta
+          if (['3', '4', '5'].includes(tipoCursoFrequenta) && parseInt(anoSerieCursoFrequenta) > 4) {
+            clickRadioButton('input[name="sabeLerEscrever"]', 0);
+          } else if (['7', '8', '11'].includes(tipoCursoFrequenta)) { // Se tiver no ensino médio
+            clickRadioButton('input[name="sabeLerEscrever"]', 0);
+          } else {
+            clickRadioButton('input[name="sabeLerEscrever"]', 1);
+          }
+        } else if (frequentaEscola === '') {
+          // Se frequentaEscola ainda nao tiver sido definido (provavel inclusão)
+          setFieldValues('select[name="frequentaEscola"]', 4);
+          clickRadioButton('input[name="sabeLerEscrever"]', 1);
+        } else {
+          // clique opção padrão
+          clickRadioButton('input[name="sabeLerEscrever"]', 1);
+        }
         break;
       case "8":
         clickRadioButton('input[name="trabalhouSemanaPassada"]', 1);
@@ -814,16 +878,16 @@ function config() {
   <span>Configurar</span>
   <label for="cpf">CPF Entrevistador</label>
   <input type="text" for="cpf" placeholder="Não configurado" id="cpfFormInput">
-  
+
   <label for="obs">Observações</label>
   <input type="text" for="obs" placeholder="Não configurado" id="obsFormInput">
-  
+
   <label for="tel">Telefone</label>
   <input type="text" for="tel" placeholder="Não configurado" id="telFormInput">
-  
+
   <label for="cidade">Cidade</label>
   <input type="text" for="cidade" placeholder="Não configurado" id="cidadeFormInput">
-  
+
   <button id="confirmConfigBtn">Confirmar</button>
 </div>
   `
@@ -943,63 +1007,64 @@ function RunMods() {
 
   // Se o elemento com ID "historicoRapido" não existir, reativa o intervalo
 
-  intervalId = setInterval(() => { 
-    if(!document.getElementById("historicoRapido")) {
+  intervalId = setInterval(() => {
+    if (!document.getElementById("historicoRapido")) {
       adicionarNovoElemento();
     }
-   }, 200);
+  }, 200);
 
 
   adicionarNovoElemento();
 
-function monitorAjaxAndHandleForm() {
+  function monitorAjaxAndHandleForm() {
     let open = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function(method, url) {
-        if (url.includes('AjaxRequestsServlet?acao=listaAnoSerieCursoFrequenta')) {
-            this.addEventListener('load', function() {
-                // A requisição AJAX foi concluída
-                console.log('Requisição AJAX concluída:', url);
+    XMLHttpRequest.prototype.open = function (method, url) {
+      if (url.includes('AjaxRequestsServlet?acao=listaAnoSerieCursoFrequenta')) {
+        this.addEventListener('load', function () {
+          // A requisição AJAX foi concluída
+          console.log('Requisição AJAX concluída:', url);
 
-                // Adiciona um pequeno delay antes de continuar
-                setTimeout(function() {
-                    let tipoCursoFrequenta = document.querySelector('select[name="tipoCursoFrequenta"]').value;
+          // Adiciona um pequeno delay antes de continuar
+          setTimeout(function () {
+            let tipoCursoFrequenta = document.querySelector('select[name="tipoCursoFrequenta"]').value;
 
-                    let anoSerieCursoFrequentaSelect = document.querySelector('select[name="anoSerieCursoFrequenta"]');
+            let anoSerieCursoFrequentaSelect = document.querySelector('select[name="anoSerieCursoFrequenta"]');
 
-                    if (anoSerieCursoFrequentaSelect) {
-                        // Adiciona o evento onchange
-                        anoSerieCursoFrequentaSelect.addEventListener('change', function() {
-                            let anoSerieCursoFrequenta = parseInt(this.value, 10);
+            if (anoSerieCursoFrequentaSelect) {
+              // Adiciona o evento onchange
+              anoSerieCursoFrequentaSelect.addEventListener('change', function () {
+                let anoSerieCursoFrequenta = parseInt(this.value, 10);
+                let frequentaEscola = document.querySelector('select[name="frequentaEscola"]').value;
 
-                            if (!['3', '4', '5'].includes(tipoCursoFrequenta)) return; //se não tiver no ensino fundamental, retorna
+                if (!['3', '4', '5'].includes(tipoCursoFrequenta)) return; //se não tiver no ensino fundamental, retorna
 
-                            if (anoSerieCursoFrequenta > 4) {
-                                clickRadioButton('input[name="sabeLerEscrever"]', 0);
-                            } else {
-                                clickRadioButton('input[name="sabeLerEscrever"]', 1);
-                            }
-                        });
+                if (anoSerieCursoFrequenta > 4) {
+                  clickRadioButton('input[name="sabeLerEscrever"]', 0);
+                } else if (frequentaEscola !== 3) {
+                  clickRadioButton('input[name="sabeLerEscrever"]', 1);
+                }
+              });
 
-                        // Executa a lógica inicial com o valor atual de anoSerieCursoFrequenta
-                        let anoSerieCursoFrequenta = anoSerieCursoFrequentaSelect.value;
+              // Executa a lógica inicial com o valor atual de anoSerieCursoFrequenta
+              let anoSerieCursoFrequenta = anoSerieCursoFrequentaSelect.value;
 
-                        if (['7', '8', '11'].includes(tipoCursoFrequenta)) { // Se tiver no ensino médio
-                            clickRadioButton('input[name="sabeLerEscrever"]', 0);
-                        } else {
-                            clickRadioButton('input[name="sabeLerEscrever"]', 1);
-                        }
-                    } else {
-                        console.log('Select anoSerieCursoFrequenta não encontrado.');
-                    }
-                }, 1000); // Delay de 1 segundo
-            });
-        }
-        open.apply(this, arguments);
+              if (['7', '8', '11'].includes(tipoCursoFrequenta)) { // Se tiver no ensino médio
+                clickRadioButton('input[name="sabeLerEscrever"]', 0);
+              } else if (frequentaEscola !== 3) {
+                clickRadioButton('input[name="sabeLerEscrever"]', 1);
+              }
+            } else {
+              console.log('Select anoSerieCursoFrequenta não encontrado.');
+            }
+          }, 1000); // Delay de 1 segundo
+        });
+      }
+      open.apply(this, arguments);
     };
-}
+  }
 
 
-    monitorAjaxAndHandleForm()
+  monitorAjaxAndHandleForm()
 }
 
 RunMods()
