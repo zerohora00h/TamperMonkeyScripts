@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.19
+// @version      1.20
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -87,37 +87,62 @@ const frmSubmitMod = (action, frmData, checkCad = false) => {
       data: frmData ? frmData : $(form).serialize(),
       success: function (data) {
         if(checkCad) {
+          // Cria um documento HTML a partir do texto recebido
+          let parser = new DOMParser();
+          let doc = parser.parseFromString(data, "text/html");
 
-          if (data.includes('<td title="CADASTRADO">')) {
-            let userConfirmed = confirm('Está em um cadastro. Deseja gerenciar esta família?');
-            
-            if (userConfirmed) {
-              abreLink('recebe_miolo', 'inicializarGerirFamilia.do?acao=iniciarPortletGerirFamilia', 'Gerir Família');
+          // Procura todas as linhas da tabela
+          let rows = doc.querySelectorAll('tbody tr');
+          let found = false;
+
+          rows.forEach(row => {
+            let cells = row.querySelectorAll('td');
+            let nameCell = cells[2];  // Célula que contém o nome da pessoa
+            let statusCell = cells[6];  // Célula que contém o status
+
+            // Verifica se o status é "CADASTRADO"
+            if (statusCell && statusCell.getAttribute('title') === "CADASTRADO") {
+              let personName = nameCell.getAttribute('title');
+              
+              // Exibe um alerta com o nome da pessoa cadastrada
+              let userConfirmed = confirm(`${personName} está em um cadastro. Deseja gerenciar esta família?`);
+              
+              if (userConfirmed) {
+                abreLink('recebe_miolo', 'inicializarGerirFamilia.do?acao=iniciarPortletGerirFamilia', 'Gerir Família');
+              }
+              
+              found = true;
             }
-          } else {
+          });
+
+          // Se não encontrar ninguém cadastrado, exibe mensagem
+          if (!found) {
             alert('NÃO está em um cadastro.');
           }
 
           resolve();
         } else {
-
           $("#recebe_miolo").empty().html(data);
           resolve();
-
         }
       },
       error: function (jqXHR) {
-        $("#recebe_miolo").empty().html(jqXHR.responseText).css("height", "auto");
-        $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno");
+        if(!checkCad){
+
+          $("#recebe_miolo").empty().html(jqXHR.responseText).css("height", "auto");
+          $("#breadcrumb").html("> Cadastro &Uacute;nico > Erro Interno");
+        }
+
         reject(new Error("Erro na requisição."));
       },
       complete: function () {
-        loading(false)
+        loading(false);
       },
       dataType: "html"
     });
   });
 };
+
 // end utils
 
 const addQuickSearchMenu = () => {
