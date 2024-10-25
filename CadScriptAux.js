@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.35
+// @version      1.36
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -1120,7 +1120,7 @@ function RunMods() {
             if (tituloFormulario) {
               // Cria o elemento <a> com o SVG
               let link = document.createElement('a');
-              newLink.id = 'imprimirFormF';
+              link.id = 'imprimirFormF';
               link.href = '#'; // Define o link como "#"
   
               // Adiciona o SVG ao link
