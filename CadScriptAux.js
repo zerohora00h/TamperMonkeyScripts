@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.32
+// @version      1.34
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -1105,6 +1105,11 @@ function RunMods() {
       ];
 
       if (urlsToCheck.some(urlToCheck => url.includes(urlToCheck))) {
+
+        const existingLink = document.querySelector('a#imprimirFormF');
+
+        if (existingLink) return // Se o botao de imprimir já existir
+
         this.addEventListener('load', function () {
           // Adiciona um delay de 2 segundos antes de executar a lógica
           setTimeout(function () {
@@ -1113,6 +1118,7 @@ function RunMods() {
             if (tituloFormulario) {
               // Cria o elemento <a> com o SVG
               let link = document.createElement('a');
+              newLink.id = 'imprimirFormF';
               link.href = '#'; // Define o link como "#"
   
               // Adiciona o SVG ao link
