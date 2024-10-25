@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.31
+// @version      1.32
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -1030,7 +1030,7 @@ function RunMods() {
           ul {
             display: flex;
             flex-direction: column;
-            gap: 20px; /* Define o gap entre os elementos */
+            gap: 10px; /* Define o gap entre os elementos */
             color: black;
           }
         </style>
