@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.34
+// @version      1.35
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -1098,13 +1098,15 @@ function RunMods() {
   
       // Verifica se a URL corresponde a uma das que queremos monitorar
 
-      const urlsToCheck = [
-        'visualizarFormularioIdentificacaoPessoa.do', 'visualizarFormularioDocumentos.do',
-        'visualizarFormularioEscolaridade.do', 'visualizarFormularioTrabalhoRemuneracao.do',
-        'carregarTelasPessoa.do', 'iniciarAlterarIdentificacaoPessoa.do', 'iniciarAlterarDocumentos.do', 'iniciarAlterarEscolaridade.do', 'iniciarAlterarTrabalhoRemuneracao.do'
-      ];
-
-      if (urlsToCheck.some(urlToCheck => url.includes(urlToCheck))) {
+      if (url.includes('visualizarFormularioIdentificacaoPessoa.do') || 
+      url.includes('visualizarFormularioDocumentos.do') || 
+      url.includes('visualizarFormularioEscolaridade.do') || 
+      url.includes('visualizarFormularioTrabalhoRemuneracao.do') ||
+      url.includes('carregarTelasPessoa.do') ||
+      url.includes('iniciarAlterarIdentificacaoPessoa.do') ||
+      url.includes('iniciarAlterarDocumentos.do') ||
+      url.includes('iniciarAlterarEscolaridade.do') ||
+      url.includes('iniciarAlterarTrabalhoRemuneracao.do')) {
 
         const existingLink = document.querySelector('a#imprimirFormF');
 
