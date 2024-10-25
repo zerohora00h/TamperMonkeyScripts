@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.36
+// @version      1.37
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -1070,7 +1070,7 @@ function RunMods() {
               // Adiciona o evento onchange
               anoSerieCursoFrequentaSelect.addEventListener('change', function () {
                 let anoSerieCursoFrequenta = parseInt(this.value, 10);
-                let frequentaEscola = document.querySelector('select[name="frequentaEscola"]').value;
+                let frequentaEscola = document.querySelector('select[name="frequentaEscola"]').value || 0;
   
                 if (!['3', '4', '5'].includes(tipoCursoFrequenta)) return; //se não tiver no ensino fundamental, retorna
   
@@ -1108,10 +1108,6 @@ function RunMods() {
       url.includes('iniciarAlterarEscolaridade.do') ||
       url.includes('iniciarAlterarTrabalhoRemuneracao.do')) {
 
-        const existingLink = document.querySelector('a#imprimirFormF');
-
-        if (existingLink) return // Se o botao de imprimir já existir
-
         this.addEventListener('load', function () {
           // Adiciona um delay de 2 segundos antes de executar a lógica
           setTimeout(function () {
@@ -1120,7 +1116,6 @@ function RunMods() {
             if (tituloFormulario) {
               // Cria o elemento <a> com o SVG
               let link = document.createElement('a');
-              link.id = 'imprimirFormF';
               link.href = '#'; // Define o link como "#"
   
               // Adiciona o SVG ao link
