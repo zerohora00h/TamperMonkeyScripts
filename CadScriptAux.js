@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.37
+// @version      1.38
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -1070,7 +1070,7 @@ function RunMods() {
               // Adiciona o evento onchange
               anoSerieCursoFrequentaSelect.addEventListener('change', function () {
                 let anoSerieCursoFrequenta = parseInt(this.value, 10);
-                let frequentaEscola = document.querySelector('select[name="frequentaEscola"]').value || 0;
+                let frequentaEscola = document.querySelector('select[name="frequentaEscola"]').value;
   
                 if (!['3', '4', '5'].includes(tipoCursoFrequenta)) return; //se não tiver no ensino fundamental, retorna
   
@@ -1081,9 +1081,8 @@ function RunMods() {
                 }
               });
   
-              // Executa a lógica inicial com o valor atual de anoSerieCursoFrequenta
-              let anoSerieCursoFrequenta = anoSerieCursoFrequentaSelect.value;
-  
+              let frequentaEscola = document.querySelector('select[name="frequentaEscola"]').value;
+
               if (['7', '8', '11'].includes(tipoCursoFrequenta)) { // Se tiver no ensino médio
                 clickRadioButton('input[name="sabeLerEscrever"]', 0);
               } else if (frequentaEscola !== 3) {
