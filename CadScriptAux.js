@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.3
+// @version      1.31
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -1097,10 +1097,14 @@ function RunMods() {
       }
   
       // Verifica se a URL corresponde a uma das que queremos monitorar
-      if (url.includes('visualizarFormularioIdentificacaoPessoa.do') || 
-          url.includes('visualizarFormularioDocumentos.do') || 
-          url.includes('visualizarFormularioEscolaridade.do') || 
-          url.includes('visualizarFormularioTrabalhoRemuneracao.do')) {
+
+      const urlsToCheck = [
+        'visualizarFormularioIdentificacaoPessoa.do', 'visualizarFormularioDocumentos.do',
+        'visualizarFormularioEscolaridade.do', 'visualizarFormularioTrabalhoRemuneracao.do',
+        'carregarTelasPessoa.do', 'iniciarAlterarIdentificacaoPessoa.do', 'iniciarAlterarDocumentos.do', 'iniciarAlterarEscolaridade.do', 'iniciarAlterarTrabalhoRemuneracao.do'
+      ];
+
+      if (urlsToCheck.some(urlToCheck => url.includes(urlToCheck))) {
         this.addEventListener('load', function () {
           // Adiciona um delay de 2 segundos antes de executar a lógica
           setTimeout(function () {
