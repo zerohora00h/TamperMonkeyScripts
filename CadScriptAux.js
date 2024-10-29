@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.38
+// @version      1.39
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -20,6 +20,8 @@ const telKey = 'tel';
 const cidadeKey = 'cidade';
 
 const tel = GM_getValue(telKey) || '';
+const ddd = tel.slice(0, 2);
+const telnum = tel.slice(2);
 const cidade = GM_getValue(cidadeKey) || '';
 
 const injectHtmlCss = (html, css) => {
@@ -745,7 +747,12 @@ const addDefaultDataFill = () => {
         clickCheckBox('input[name="checkOutrasFontes"]', 0);
         break;
       case "9":
-        selectOption('select#tipoTelefone1', 'N');
+        selectOption('select#tipoTelefone1', 'O');
+
+        document.querySelector('input[name="dddTelefone1"]').value = ddd;
+        document.querySelector('input[name="numeroTelefone1"]').value = telnum;
+
+        clickRadioButton('input[name="radio1"]', 0);
         selectOption('select#tipoTelefone2', 'N');
         selectOption('select#tipoEmail', 'N');
         break;
@@ -1075,9 +1082,9 @@ function RunMods() {
                 if (!['3', '4', '5'].includes(tipoCursoFrequenta)) return; //se não tiver no ensino fundamental, retorna
   
                 if (anoSerieCursoFrequenta > 4) {
-                  clickRadioButton('input[name="sabeLerEscrever"]', 0);
-                } else if (frequentaEscola !== 3) {
-                  clickRadioButton('input[name="sabeLerEscrever"]', 1);
+                  clickRadioButton('input[name="sabeLerEscrever"]', 0); //sim
+                } else if (frequentaEscola != 3) {
+                  clickRadioButton('input[name="sabeLerEscrever"]', 1); //não
                 }
               });
   
@@ -1085,7 +1092,7 @@ function RunMods() {
 
               if (['7', '8', '11'].includes(tipoCursoFrequenta)) { // Se tiver no ensino médio
                 clickRadioButton('input[name="sabeLerEscrever"]', 0);
-              } else if (frequentaEscola !== 3) {
+              } else if (frequentaEscola != 3) {
                 clickRadioButton('input[name="sabeLerEscrever"]', 1);
               }
             } else {
