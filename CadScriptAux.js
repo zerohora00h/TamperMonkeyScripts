@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.39
+// @version      1.40
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -705,6 +705,9 @@ const addDefaultDataFill = () => {
         clickCheckBox('input[name="naoTemCriancaAdolecenteDoente"]', 0);
         clickCheckBox('input[name="naoTemJovemAdultoDoente"]', 0);
         clickCheckBox('input[name="naoTemIdosoDoente"]', 0);
+        break;
+      case "4":
+        clickRadioButton('input[name="identidadeGenero"]', 1);
         break;
       case "6":
         clickRadioButton('input[name="possuiDeficiencia"]', 1);
