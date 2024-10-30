@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         FERRAMENTAS ADICIONAIS
-// @version      1.40
+// @version      1.41
 // @description  FERRAMENTAS ADICIONAIS PARA O SISTEMA
 // @author       ZeroHora
 // @match        https://cadastrounico.caixa.gov.br/cadun/*
@@ -1093,9 +1093,10 @@ function RunMods() {
   
               let frequentaEscola = document.querySelector('select[name="frequentaEscola"]').value;
 
-              if (['7', '8', '11'].includes(tipoCursoFrequenta)) { // Se tiver no ensino médio
+              if (!['7', '8', '11'].includes(tipoCursoFrequenta)) return; //se não tiver no ensino medio, retorna
+              
                 clickRadioButton('input[name="sabeLerEscrever"]', 0);
-              } else if (frequentaEscola != 3) {
+              if (frequentaEscola != 3) {
                 clickRadioButton('input[name="sabeLerEscrever"]', 1);
               }
             } else {
